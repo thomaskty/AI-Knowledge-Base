@@ -6,19 +6,19 @@ This is an analogy, not a literal simulation. Artificial neurons use numbers and
 
 ## The Classical Perceptron
 
-For input features \(x_1,\ldots,x_n\), a perceptron computes a weighted sum plus a bias:
+For input features $x_1,\ldots,x_n$, a perceptron computes a weighted sum plus a bias:
 
 $$
 z = \sum_{i=1}^{n} w_i x_i + b
 $$
 
-Using column vectors \(x,w \in \mathbb{R}^{n}\), the same computation can be written as:
+Using column vectors $x,w \in \mathbb{R}^{n}$, the same computation can be written as:
 
 $$
 z = w^T x + b
 $$
 
-Here, \(w_i\) indicates how strongly feature \(x_i\) affects the decision, and \(b\) shifts the decision boundary. The weighted sum \(z\) is called the **pre-activation**. In some contexts, it is also called a **logit**.
+Here, $w_i$ indicates how strongly feature $x_i$ affects the decision, and $b$ shifts the decision boundary. The weighted sum $z$ is called the **pre-activation**. In some contexts, it is also called a **logit**.
 
 A classic perceptron applies a hard threshold:
 
@@ -30,13 +30,13 @@ $$
 \end{cases}
 $$
 
-For example, if \(x=(2,1)^T\), \(w=(0.5,-1)^T\), and \(b=0.2\), then:
+For example, if $x=(2,1)^T$, $w=(0.5,-1)^T$, and $b=0.2$, then:
 
 $$
 z = (0.5)(2) + (-1)(1) + 0.2 = 0.2
 $$
 
-Since \(z \geq 0\), the perceptron predicts \(\hat{y}=1\).
+Since $z \geq 0$, the perceptron predicts $\hat{y}=1$.
 
 With one perceptron, the decision boundary between two classes is a straight line in two dimensions, a plane in three dimensions, or a hyperplane in higher dimensions. A single perceptron can learn only linearly separable classifications.
 
@@ -56,7 +56,7 @@ $$
 b_{\text{new}} = b_{\text{old}} + \eta (y-\hat{y})
 $$
 
-Here, \(y\) is the true label, \(\hat{y}\) is the predicted label, and \(\eta\) is the learning rate. The weight update above assumes \(x\) is a column vector.
+Here, $y$ is the true label, $\hat{y}$ is the predicted label, and $\eta$ is the learning rate. The weight update above assumes $x$ is a column vector.
 
 ## The Modern Artificial Neuron
 
@@ -77,7 +77,7 @@ $$
 a = f(z)
 $$
 
-The output \(a\) can be a score, a hidden-layer feature, or a probability-like value. Common activation functions include:
+The output $a$ can be a score, a hidden-layer feature, or a probability-like value. Common activation functions include:
 
 - **Sigmoid:**
 
@@ -85,16 +85,14 @@ The output \(a\) can be a score, a hidden-layer feature, or a probability-like v
   \sigma(z) = \frac{1}{1+e^{-z}}
   $$
 
-  It maps real-valued inputs into the interval \((0,1)\).
-
+  It maps real-valued inputs into the interval $(0,1)$.
 - **Tanh:**
 
   $$
   \tanh(z) = \frac{e^z-e^{-z}}{e^z+e^{-z}}
   $$
 
-  It maps real-valued inputs into \((-1,1)\).
-
+  It maps real-valued inputs into $(-1,1)$.
 - **ReLU:**
 
   $$
@@ -121,7 +119,7 @@ An MLP connects artificial neurons in layers:
 2. **Hidden layers:** Transform representations using weighted sums and nonlinear activation functions.
 3. **Output layer:** Produces a prediction, such as a class score, probability, or numeric value.
 
-For a layer with input vector \(a^{(l-1)}\), weights \(W^{(l)}\), and bias \(b^{(l)}\), the forward computation is:
+For a layer with input vector $a^{(l-1)}$, weights $W^{(l)}$, and bias $b^{(l)}$, the forward computation is:
 
 $$
 z^{(l)} = W^{(l)}a^{(l-1)} + b^{(l)}
@@ -131,7 +129,7 @@ $$
 a^{(l)} = f^{(l)}\left(z^{(l)}\right)
 $$
 
-The exact dimensions depend on whether activations are represented as row or column vectors. Here, activations are column vectors and each row of \(W^{(l)}\) corresponds to one output neuron.
+The exact dimensions depend on whether activations are represented as row or column vectors. Here, activations are column vectors and each row of $W^{(l)}$ corresponds to one output neuron.
 
 ## Perceptron, Neuron, MLP, FFN, and NN
 
@@ -146,7 +144,7 @@ The terms MLP, FNN, and dense network are related, but they are not always exact
 
 ## Autograd and Backpropagation (Matrix Example)
 
-Consider a batch of two examples with three input features each. Let \(X\) have shape \((2,3)\), \(W_1\) have shape \((3,4)\), and \(W_2\) have shape \((4,1)\).
+Consider a batch of two examples with three input features each. Let $X$ have shape $(2,3)$, $W_1$ have shape $(3,4)$, and $W_2$ have shape $(4,1)$.
 
 For this example, we use two linear transformations without biases or activation functions:
 
@@ -160,19 +158,19 @@ $$
 
 The resulting shapes are:
 
-- \(X \in \mathbb{R}^{2\times3}\)
-- \(W_1 \in \mathbb{R}^{3\times4}\)
-- \(M \in \mathbb{R}^{2\times4}\)
-- \(W_2 \in \mathbb{R}^{4\times1}\)
-- \(\hat{Y} \in \mathbb{R}^{2\times1}\)
+- $X \in \mathbb{R}^{2\times3}$
+- $W_1 \in \mathbb{R}^{3\times4}$
+- $M \in \mathbb{R}^{2\times4}$
+- $W_2 \in \mathbb{R}^{4\times1}$
+- $\hat{Y} \in \mathbb{R}^{2\times1}$
 
-Let \(Y\) be the target vector. Define the **sum of squared errors** over the two examples as:
+Let $Y$ be the target vector. Define the **sum of squared errors** over the two examples as:
 
 $$
 L = \sum_{j=1}^{2}(Y_j-\hat{Y}_j)^2
 $$
 
-There is no factor of \(1/2\) in this loss, so the derivative includes a factor of \(2\).
+There is no factor of $1/2$ in this loss, so the derivative includes a factor of 2.
 
 ### Gradients by the chain rule
 
@@ -218,7 +216,6 @@ X =
 \end{bmatrix}
 $$
 
-The first weight matrix is:
 
 $$
 W_1 =
@@ -228,8 +225,6 @@ W_1 =
 1 & 2 & 0 & 1
 \end{bmatrix}
 $$
-
-The second weight matrix is:
 
 $$
 W_2 =
@@ -305,7 +300,7 @@ $$
 \end{bmatrix}
 $$
 
-The gradient with respect to \(W_2\) is:
+The gradient with respect to $W_2$ is:
 
 $$
 \begin{aligned}
@@ -336,7 +331,7 @@ $$
 \end{aligned}
 $$
 
-The gradient with respect to \(M\) is:
+The gradient with respect to M is:
 
 $$
 \begin{aligned}
@@ -357,7 +352,7 @@ $$
 \end{aligned}
 $$
 
-Finally, the gradient with respect to \(W_1\) is:
+Finally, the gradient with respect to $W_1$ is:
 
 $$
 \begin{aligned}
@@ -384,10 +379,10 @@ $$
 
 All gradient shapes match their corresponding parameter or intermediate matrix:
 
-- \(\partial L/\partial \hat{Y}\): \((2,1)\)
-- \(\partial L/\partial W_2\): \((4,1)\)
-- \(\partial L/\partial M\): \((2,4)\)
-- \(\partial L/\partial W_1\): \((3,4)\)
+- $\partial L/\partial \hat{Y}$: $(2,1)$
+- $\partial L/\partial W_2$: $(4,1)$
+- $\partial L/\partial M$: $(2,4)$
+- $\partial L/\partial W_1$: $(3,4)$
 
 **Important:** This is a simplified linear network used to demonstrate the chain rule. Real neural networks commonly include biases and nonlinear activations, whose derivatives must also be included during backpropagation.
 
@@ -408,7 +403,7 @@ $$
 \sigma'(x)=\sigma(x)\left(1-\sigma(x)\right)
 $$
 
-Its derivative is at most \(0.25\), attained when \(\sigma(x)=0.5\). When sigmoid units operate in saturated regions, their derivatives are much smaller than this maximum.
+Its derivative is at most 0.25, attained when $\sigma(x)=0.5$. When sigmoid units operate in saturated regions, their derivatives are much smaller than this maximum.
 
 Repeated multiplication by small derivatives can contribute to vanishing gradients in deep networks. The actual gradient also depends on the weight matrices and the other operations in the network.
 
@@ -432,7 +427,7 @@ $$
 
 At \(x=0\), ReLU is not differentiable; implementations choose a subgradient, commonly zero.
 
-For positive inputs, ReLU's derivative is \(1\), so it does not shrink the gradient through the activation itself. This can help mitigate one source of vanishing gradients. However, weight matrices can still shrink or amplify gradients.
+For positive inputs, ReLU's derivative is 1, so it does not shrink the gradient through the activation itself. This can help mitigate one source of vanishing gradients. However, weight matrices can still shrink or amplify gradients.
 
 For negative inputs, ReLU's derivative is zero. If a unit remains inactive for the inputs it receives, it may stop receiving useful gradient updates. This is known as the **dying ReLU problem**.
 
@@ -452,9 +447,9 @@ $$
 \right\|
 $$
 
-Here, \(h^{(l)}\) denotes the hidden representation at layer \(l\), and \(\|\cdot\|\) denotes a vector or matrix norm. This is an intuition rather than a strict requirement for every pair of layers: gradient magnitudes can legitimately vary by layer and task.
+This is an intuition rather than a strict requirement for every pair of layers: gradient magnitudes can legitimately vary by layer and task.
 
-There is no rule that every individual derivative must be approximately \(1\). The goal is for the overall gradient flow to remain numerically manageable and useful for learning.
+There is no rule that every individual derivative must be approximately 1. The goal is for the overall gradient flow to remain numerically manageable and useful for learning.
 
 A gradient tells the optimizer how the loss changes with respect to a parameter:
 
